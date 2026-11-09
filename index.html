@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sniper Dashboard</title>
+  <style>
+    body { background: #0f172a; color: #f8fafc; font-family: -apple-system, sans-serif; padding: 20px; margin: 0; }
+    .card { background: #1e293b; border-radius: 12px; padding: 16px; margin-bottom: 12px; border: 1px solid #334155; }
+    h1 { font-size: 1.4rem; color: #38bdf8; margin-top: 0; }
+    .status { font-size: 0.85rem; color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <h1>🎯 Sniper Dashboard</h1>
+  <div class="card">
+    <div id="status" class="status">Connecting to ledger...</div>
+  </div>
+  <script>
+    fetch('./data.json')
+      .then(r => r.json())
+      .then(d => {
+        document.getElementById('status').innerText = 'Status: ' + d.updated + ' | Active Picks: ' + d.picks.length;
+      });
+  </script>
+</body>
+</html>
