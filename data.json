@@ -1,4 +1,13 @@
 {
-  "updated": "Live Sync Ready",
-  "picks": []
+  "updated": "Nov 08, 08:44 PM",
+  "picks": [
+    {
+      "league": "Live System Test",
+      "match": "Arsenal vs Chelsea",
+      "market": "Over 2.5 Goals",
+      "odds": "1.95",
+      "prob": "56.4%",
+      "edge": "+4.8%"
+    }
+  ]
 }

@@ -3,24 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sniper Dashboard</title>
+  <title>🎯 Sniper Dashboard</title>
   <style>
-    body { background: #0f172a; color: #f8fafc; font-family: -apple-system, sans-serif; padding: 20px; margin: 0; }
+    body { background: #0f172a; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 16px; margin: 0; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    h1 { font-size: 1.3rem; color: #38bdf8; margin: 0; }
+    .status { font-size: 0.8rem; color: #94a3b8; background: #1e293b; padding: 6px 10px; border-radius: 8px; border: 1px solid #334155; }
     .card { background: #1e293b; border-radius: 12px; padding: 16px; margin-bottom: 12px; border: 1px solid #334155; }
-    h1 { font-size: 1.4rem; color: #38bdf8; margin-top: 0; }
-    .status { font-size: 0.85rem; color: #94a3b8; }
+    .match { font-weight: 700; font-size: 1.05rem; margin-bottom: 6px; color: #f1f5f9; }
+    .league { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; margin-top: 10px; padding-top: 10px; border-top: 1px solid #334155; }
+    .pick { color: #4ade80; font-weight: 600; }
+    .edge { background: #065f46; color: #6ee7b7; padding: 3px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
   </style>
 </head>
 <body>
-  <h1>🎯 Sniper Dashboard</h1>
-  <div class="card">
-    <div id="status" class="status">Connecting to ledger...</div>
+  <div class="header">
+    <h1>🎯 Sniper Ledger</h1>
+    <div id="status" class="status">Syncing...</div>
   </div>
+  <div id="picks"></div>
   <script>
-    fetch('./data.json')
+    fetch('./data.json?t=' + Date.now())
       .then(r => r.json())
       .then(d => {
-        document.getElementById('status').innerText = 'Status: ' + d.updated + ' | Active Picks: ' + d.picks.length;
+        document.getElementById('status').innerText = d.updated;
+        const container = document.getElementById('picks');
+        if (!d.picks || d.picks.length === 0) {
+          container.innerHTML = '<div class="card">No active picks right now.</div>';
+          return;
+        }
+        container.innerHTML = d.picks.map(p => `
+          <div class="card">
+            <div class="league">${p.league || 'Match'}</div>
+            <div class="match">${p.match}</div>
+            <div class="meta">
+              <span class="pick">${p.market} @ ${p.odds}</span>
+              <span class="edge">Prob: ${p.prob || '--'} | Edge: ${p.edge || '--'}</span>
+            </div>
+          </div>
+        `).join('');
       });
   </script>
 </body>
